@@ -2,7 +2,7 @@
 
 namespace GameArchive.Api.Services
 {
-    public interface IGameServise
+    public interface IGameService
     {
         public Task CreateAsync(GameDto game);
         public Task<GameDto?> ReadByIdAsync(Guid id);

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GameArchive.Api.Services.Implementation
 {
-    internal class GameService : IGameServise
+    internal class GameService : IGameService
     {
         private readonly ApplicationContext _db;
         private readonly IMapper _mapper;
@@ -29,11 +29,6 @@ namespace GameArchive.Api.Services.Implementation
                                     .Union(_db.Genres.Where(genre => game.Genres.Contains(genre.Name)))
                                     .ToList()
             };
-
-            //var existedGenres = await _db.Genres.Where(genre => game.Genres.Contains(genre.Name))
-            //                                    .ToListAsync();
-            //insert.Genres = existedGenres.Union(insert.Genres, new GenreDbComparer())
-            //                             .ToList();
 
             _db.Games.Add(insert);
             await _db.SaveChangesAsync();
@@ -71,7 +66,6 @@ namespace GameArchive.Api.Services.Implementation
                                        .Union(_db.Genres.Where(genre => game.Genres.Contains(genre.Name)))
                                        .ToList();
 
-            // TODO: cascade
             _db.Games.Update(update);
             await _db.SaveChangesAsync();
         }
@@ -80,24 +74,7 @@ namespace GameArchive.Api.Services.Implementation
         {
             Game game = new() { Id = id };
             _db.Entry(game).State = EntityState.Deleted;
-            // TODO: cascade
             await _db.SaveChangesAsync();
         }
-
-        //private class GenreDbComparer : IEqualityComparer<Genre>
-        //{
-        //    public bool Equals(Genre? x, Genre? y)
-        //    {
-        //        if (ReferenceEquals(x, y)) return true;
-        //        if (x is null || y is null)
-        //            return false;
-        //        return x.Name == y.Name;
-        //    }
-
-        //    public int GetHashCode([DisallowNull] Genre genre)
-        //    {
-        //        return genre.Name == null ? 0 : genre.Name.GetHashCode();
-        //    }
-        //}
     }
 }

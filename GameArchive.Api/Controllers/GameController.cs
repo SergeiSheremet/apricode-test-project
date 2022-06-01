@@ -9,9 +9,9 @@ namespace GameArchive.Api.Controllers
     [ApiController]
     public class GameController : Controller
     {
-        private readonly IGameServise _service;
+        private readonly IGameService _service;
 
-        public GameController(IGameServise service)
+        public GameController(IGameService service)
         {
             _service = service;
         }
